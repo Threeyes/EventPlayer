@@ -1,2 +1,2 @@
-# 简要
-在我看来，每一段无法重用的代码都是辣鸡，都不利于环境。
+# Summay
+I have sick of writing scripts that can't be reuse, so here it is！Visual Scripting without extra window!
