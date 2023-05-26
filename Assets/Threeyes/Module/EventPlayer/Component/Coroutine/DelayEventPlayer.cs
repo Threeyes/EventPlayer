@@ -5,6 +5,7 @@ using System.Text;
 namespace Threeyes.EventPlayer
 {
 #if UNITY_EDITOR
+    using Threeyes.Editor;
     using UnityEditor;
 #endif
 
@@ -17,12 +18,14 @@ namespace Threeyes.EventPlayer
 
         public int DelayFrame { get { return defaultDelayFrame; } set { defaultDelayFrame = value; } }
         public float DelayTime { get { return defaultDelayTime; } set { defaultDelayTime = value; } }
-
-        //[Header("Delay Setting")]
         [SerializeField]
         protected int defaultDelayFrame = -1;
         [SerializeField]
         protected float defaultDelayTime = 1;
+
+        //Editor Display
+        protected int CoroutineUsedFrame { get { return coroutineUsedFrame; } set { coroutineUsedFrame = value; RepaintHierarchyWindow(); } }
+        private int coroutineUsedFrame = 0;
 
         #endregion
 
@@ -59,15 +62,16 @@ namespace Threeyes.EventPlayer
             cacheEnum = Coroutine.CoroutineManager.StartCoroutineEx(IEDelayPlay(delayTime, delayFrame));
         }
 
-        int coroutineUsedFrame = 0;
         IEnumerator IEDelayPlay(float delayTime, int delayFrame)
         {
-            //If both property is not valid, instead of LogError, it will invoke event at once just like EventPlayer
+            //If all the properties are not valid, instead of LogError, it will invoke event at once just like EventPlayer
 
             IsCoroutineRunning = true;
+            SetStateFunc(EventPlayer_State.Played);
+
 #if UNITY_EDITOR
-            coroutineUsedFrame = 0;
-            coroutineUsedTime = 0;
+            CoroutineUsedFrame = 0;
+            CoroutineUsedTime = 0;
             if (IsLogOnPlay)
                 print(name + " DelayEventPlay!");
 #endif
@@ -76,8 +80,7 @@ namespace Threeyes.EventPlayer
                 for (int i = 0; i != delayFrame; i++)
                 {
 #if UNITY_EDITOR
-                    coroutineUsedFrame++;
-                    RepaintHierarchyWindow();
+                    CoroutineUsedFrame++;
 #endif
                     if (HasDestoryed)//In case get destroy
                         yield break;
@@ -93,8 +96,7 @@ namespace Threeyes.EventPlayer
                 {
                     leftTime -= DeltaGameTime;
 #if UNITY_EDITOR
-                    coroutineUsedTime += DeltaGameTime;
-                    RepaintHierarchyWindow();
+                    CoroutineUsedTime += DeltaGameTime;
 #endif
 
                     if (HasDestoryed)//In case get destroy
@@ -104,6 +106,8 @@ namespace Threeyes.EventPlayer
             }
 
             IsCoroutineRunning = false;//PS:PlayFunc will RefreshEditor
+            if (HasDestoryed)//In case get destroy
+                yield break;
             base.PlayFunc();
 
 #if UNITY_EDITOR
@@ -134,28 +138,18 @@ namespace Threeyes.EventPlayer
         #endregion
 
         #region Editor Method
-
 #if UNITY_EDITOR
 
+        //——MenuItem——
         static string instName = "DelayEP ";
-
-        [MenuItem(strSubCoroutineMenuItem + "DelayEventPlayer", false, intCoroutineMenuOrder + 0)]
+        [MenuItem(strMenuItem_RootCoroutine + "DelayEventPlayer", false, intCoroutineMenuOrder + 0)]
         public static void CreateDelayEventPlayer()
-        {
-            EditorTool.CreateGameObject<DelayEventPlayer>(instName);
-        }
-
-        [MenuItem(strSubCoroutineMenuItem + "DelayEventPlayer Child", false, intCoroutineMenuOrder + 1)]
-        public static void CreateDelayEventPlayerChild()
         {
             EditorTool.CreateGameObjectAsChild<DelayEventPlayer>(instName);
         }
 
-        public override void SetHierarchyGUIType(StringBuilder sB)
-        {
-            sB.Append("D");
-        }
-
+        //——Hierarchy GUI——
+        public override string ShortTypeName { get { return "D"; } }
         public override void SetHierarchyGUIProperty(StringBuilder sB)
         {
             base.SetHierarchyGUIProperty(sB);
@@ -164,19 +158,19 @@ namespace Threeyes.EventPlayer
             {
                 sbCache.Length = 0;
 
-                float totalRunTime = (float)coroutineUsedFrame / 60 + coroutineUsedTime;
+                float totalRunTime = (float)CoroutineUsedFrame / 60 + CoroutineUsedTime;
                 sbCache.Append(GetRunningSymbol(totalRunTime));
 
                 //Only show the valid time
-                if (coroutineUsedFrame > 0)
-                    sbCache.Append(coroutineUsedFrame).Append("f");
-                if (coroutineUsedTime > 0)
+                if (CoroutineUsedFrame > 0)
+                    sbCache.Append(CoroutineUsedFrame).Append("f");
+                if (CoroutineUsedTime > 0)
                 {
-                    if (coroutineUsedFrame > 0)
+                    if (CoroutineUsedFrame > 0)
                     {
                         sbCache.Append("+");
                     }
-                    sbCache.Append(coroutineUsedTime.ToString("#0.00")).Append("s");
+                    sbCache.Append(CoroutineUsedTime.ToString("#0.00")).Append("s");
                 }
 
                 AddSplit(sB, sbCache);
@@ -186,10 +180,10 @@ namespace Threeyes.EventPlayer
             //——Config——
             sbCache.Length = 0;
             if (IsIgnoreTimeScale)
-                sbCache.Append("Ⓘ ");
+                sbCache.Append("Ⓣ ");
             if (!IsPropertyValid(DelayTime) && !IsPropertyValid(DelayFrame))
             {
-                EditorDrawerTool.AppendWarningText(sbCache, DelayFrame, "f", "+", DelayTime, "s");
+                sbCache.AppendWarningRichText(DelayFrame, "f", "+", DelayTime, "s");
             }
             else
             {
@@ -209,20 +203,20 @@ namespace Threeyes.EventPlayer
             AddSplit(sB, sbCache);
         }
 
+        //——Inspector GUI——
         public override void SetInspectorGUISubProperty(GUIPropertyGroup group)
         {
             base.SetInspectorGUISubProperty(group);
             group.title = "Delay Setting";
-            group.listProperty.Add(new GUIProperty("defaultDelayFrame", "DelayFrame"));
-            group.listProperty.Add(new GUIProperty("defaultDelayTime", "DelayTime"));
+            group.listProperty.Add(new GUIProperty(nameof(defaultDelayFrame), "DelayFrame"));
+            group.listProperty.Add(new GUIProperty(nameof(defaultDelayTime), "DelayTime"));
         }
-
         public override void SetInspectorGUICommonTextArea(StringBuilder sB)
         {
             base.SetInspectorGUICommonTextArea(sB);
             if (DelayTime <= 0 && DelayFrame <= 0)
             {
-                EditorDrawerTool.AppendWarningText(sB, "The total delay time is zero!");
+                sB.AppendWarningRichText("The total delay time is zero!");
                 sB.Append("\r\n");
             }
         }

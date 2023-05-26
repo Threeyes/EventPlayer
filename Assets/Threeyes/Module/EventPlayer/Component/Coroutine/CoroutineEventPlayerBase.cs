@@ -17,13 +17,17 @@ namespace Threeyes.EventPlayer
         protected bool HasDestoryed { get { return this == null; } }
 
 
+
         [SerializeField]
         [Tooltip("If set to ture, it will ignore the Time scale")]
         protected bool isIgnoreTimeScale = false;
         [SerializeField]
         protected bool isCoroutineRunning = false;//Is the CoroutineRunning
         protected UnityEngine.Coroutine cacheEnum;
-        protected float coroutineUsedTime = 0;
+
+        //Editor Display
+        protected float CoroutineUsedTime { get { return coroutineUsedTime; } set { coroutineUsedTime = value; RepaintHierarchyWindow(); } }
+        private float coroutineUsedTime = 0;
 
         #endregion
 
@@ -63,8 +67,8 @@ namespace Threeyes.EventPlayer
         public override void SetInspectorGUISubProperty(GUIPropertyGroup group)
         {
             base.SetInspectorGUISubProperty(group);
-            group.listProperty.Add(new GUIProperty("isCoroutineRunning", "CoroutineRunning", isEnable: false));//Readonly
-            group.listProperty.Add(new GUIProperty("isIgnoreTimeScale", "IgnoreTimeScale"));
+            group.listProperty.Add(new GUIProperty(nameof(isCoroutineRunning), "CoroutineRunning", isEnable: false));//Readonly
+            group.listProperty.Add(new GUIProperty(nameof(isIgnoreTimeScale), "IgnoreTimeScale"));
         }
 
 #endif

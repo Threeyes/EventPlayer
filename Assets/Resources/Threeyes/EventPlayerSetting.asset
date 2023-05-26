@@ -12,7 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a068085e5ef358145aea8e47427c61b4, type: 3}
   m_Name: EventPlayerSetting
   m_EditorClassIdentifier: 
-  version: 2.5
+  version: 3.0
   showPropertyInHierarchy: 1
   useTimeline: 0
   useVideoPlayer: 0
+  useBezierSolution: 0
+  useDoTweenPro: 0
+  activeDoTweenProPreview: 0

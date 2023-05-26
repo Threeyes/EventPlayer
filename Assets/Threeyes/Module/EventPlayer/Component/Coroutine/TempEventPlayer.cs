@@ -2,6 +2,9 @@ using System.Collections;
 using UnityEngine;
 using System.Text;
 using Threeyes.Coroutine;
+#if UNITY_EDITOR
+using Threeyes.Editor;
+#endif
 
 namespace Threeyes.EventPlayer
 {
@@ -52,8 +55,10 @@ namespace Threeyes.EventPlayer
         IEnumerator IETempContinuousPlay(float duration)
         {
             IsCoroutineRunning = true;
+            SetStateFunc(EventPlayer_State.Played);
+
 #if UNITY_EDITOR
-            coroutineUsedTime = 0;
+            CoroutineUsedTime = 0;
             if (IsLogOnPlay)
                 print(name + " TempEventPlay!");
 #endif
@@ -73,8 +78,7 @@ namespace Threeyes.EventPlayer
                     leftTime -= DeltaGameTime;
 
 #if UNITY_EDITOR
-                    coroutineUsedTime += DeltaGameTime;
-                    RepaintHierarchyWindow();
+                    CoroutineUsedTime += DeltaGameTime;
 #endif
                     if (HasDestoryed)//In case get destroy
                         yield break;
@@ -92,8 +96,7 @@ namespace Threeyes.EventPlayer
                     }
 
 #if UNITY_EDITOR
-                    coroutineUsedTime += DeltaGameTime;
-                    RepaintHierarchyWindow();
+                    CoroutineUsedTime += DeltaGameTime;
 #endif
 
                     if (HasDestoryed)//In case get destroy
@@ -114,28 +117,16 @@ namespace Threeyes.EventPlayer
 
 #if UNITY_EDITOR
 
+        //——MenuItem——
         static string instName = "TempEP ";
-        [UnityEditor.MenuItem(strSubCoroutineMenuItem + "TempEventPlayer", false, intCoroutineMenuOrder + 4)]
+        [UnityEditor.MenuItem(strMenuItem_RootCoroutine + "TempEventPlayer", false, intCoroutineMenuOrder + 2)]
         public static void CreateTempEventPlayer()
-        {
-            EditorTool.CreateGameObject<TempEventPlayer>(instName);
-        }
-
-        [UnityEditor.MenuItem(strSubCoroutineMenuItem + "TempEventPlayer Child", false, intCoroutineMenuOrder + 5)]
-        public static void CreateTempEventPlayerChild()
         {
             EditorTool.CreateGameObjectAsChild<TempEventPlayer>(instName);
         }
 
-        /// <summary>
-        /// Show the name of this class in shorter form
-        /// </summary>
-        /// <param name="sB"></param>
-        public override void SetHierarchyGUIType(StringBuilder sB)
-        {
-            sB.Append("T");
-        }
-
+        //——Hierarchy GUI——
+        public override string ShortTypeName { get { return "T"; } }
         /// <summary>
         /// Show the key property of this class
         /// </summary>
@@ -148,8 +139,8 @@ namespace Threeyes.EventPlayer
             if (IsCoroutineRunning)
             {
                 sbCache.Length = 0;
-                sbCache.Append(GetRunningSymbol(coroutineUsedTime));
-                sbCache.Append(coroutineUsedTime.ToString("#0.00")).Append("s");
+                sbCache.Append(GetRunningSymbol(CoroutineUsedTime));
+                sbCache.Append(CoroutineUsedTime.ToString("#0.00")).Append("s");
                 AddSplit(sB, sbCache);
             }
 
@@ -168,12 +159,13 @@ namespace Threeyes.EventPlayer
             AddSplit(sB, sbCache);
         }
 
+        //——Inspector GUI——
         public override void SetInspectorGUISubProperty(GUIPropertyGroup group)
         {
             base.SetInspectorGUISubProperty(group);
             group.title = "Temp Setting";
-            group.listProperty.Add(new GUIProperty("isContinuous", "Continuous"));
-            group.listProperty.Add(new GUIProperty("defaultDuration", "Duration"));
+            group.listProperty.Add(new GUIProperty(nameof(isContinuous), "Continuous"));
+            group.listProperty.Add(new GUIProperty(nameof(defaultDuration), "Duration"));
         }
 #endif
         #endregion

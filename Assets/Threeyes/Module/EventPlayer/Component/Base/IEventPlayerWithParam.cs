@@ -9,6 +9,7 @@ namespace Threeyes.EventPlayer
     public interface IEventPlayerWithParam
     {
         bool IsPlayWithParam { get; set; }
+        bool IsStopWithParam { get; set; }
 
         string ValueToString { get; }//Editor Display usage
 

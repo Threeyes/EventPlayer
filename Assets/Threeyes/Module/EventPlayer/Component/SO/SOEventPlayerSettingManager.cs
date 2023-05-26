@@ -1,182 +1,145 @@
-﻿#if UNITY_EDITOR
-using System.Collections;
+#if UNITY_EDITOR
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
-using System.Linq;
-using System.IO;
+using Threeyes.Editor;
+using System;
 
 namespace Threeyes.EventPlayer
 {
-    [CreateAssetMenu(menuName = "SO/Manager/EventPlayerSettingManager")]
-    public class SOEventPlayerSettingManager : SOInstacneBase<SOEventPlayerSettingManager>
-    {
-        #region Property & Field
+	//ToUpdate:应该是管理所有Core的Module的宏定义
+	[CreateAssetMenu(menuName = "SO/Manager/EventPlayerSettingManager")]
+	public class SOEventPlayerSettingManager : SOInstacneBase<SOEventPlayerSettingManager>
+	{
+		#region Property & Field
 
-        //——Static——
-        public static bool ShowPropertyInHierarchy { get { return Instance ? Instance.showPropertyInHierarchy : true; } set { if (Instance) Instance.showPropertyInHierarchy = value; } }
-        public static SOEventPlayerSettingManager Instance { get { return GetOrCreateInstance(ref _instance, defaultName, pathInResources); } }
-        private static SOEventPlayerSettingManager _instance;
-        static string defaultName = "EventPlayerSetting";
-        static string pathInResources = "Threeyes";//该Manager在Resources下的路径，默认是Resources根目录
+		//——Static——
+		public static bool ShowPropertyInHierarchy { get { return Instance ? Instance.showPropertyInHierarchy : true; } set { if (Instance) Instance.showPropertyInHierarchy = value; } }
+		public static SOEventPlayerSettingManager Instance { get { return GetOrCreateInstance(ref _instance, defaultName, pathInResources, InitSettings); } }
+		private static SOEventPlayerSettingManager _instance;
+		static string defaultName = "EventPlayerSetting";
+		static string pathInResources = "Threeyes";//该Manager在Resources下的路径，默认是Resources根目录
 
 
-        public string version = "0"; //Last  cache version
+		public string version = "0"; //Last cache version
 
-        //Display Setting
-        public bool showPropertyInHierarchy = true;//Show info of subclass
+		//Display Setting
+		public bool showPropertyInHierarchy = true;//Show info of subclass
 
-        //Other Plugin Support Setting
-        //[Header("Other Plugin Support")]
-        public bool useTimeline = false;
-        public bool useVideoPlayer = false;
-        static readonly string epRootDir = "EventPlayer";
-        static readonly string extendDir = "Extend/";
-        public static List<DefineSymbol> listAvaliableDS = new List<DefineSymbol>()
-        {
-            new DefineSymbol("Threeyes_Timeline", "TimelineEvent", "支持Timeline事件", extendDir+"Timeline",asmdefName:"Unity.Timeline"),
-        };
+		//Other Plugin Support Setting
+		//[Header("Other Plugin Support")]
+		public bool useTimeline = false;
+		public bool useVideoPlayer = false;
+		public bool useBezierSolution = false;
+		public bool useDoTweenPro = false;
+		public bool activeDoTweenProPreview = false;
 
-        public Dictionary<DefineSymbol, bool> dictDS
-        {
-            get
-            {
-                return new Dictionary<DefineSymbol, bool>
-                {
-                    { new DefineSymbol("Threeyes_Timeline", "Timeline Event", "支持Timeline", extendDir+"Timeline") ,useTimeline},
-                    {  new DefineSymbol("Threeyes_VideoPlayer", "VideoPlayer Event", "支持VideoPlayer", extendDir+"Video"),useVideoPlayer }
-                };
-            }
-        }
+		//RelatePath
+		static readonly string baseExtendDir = "Base/Timeline";
+		static readonly string epExtendDir = "EventPlayer/Extend";
 
-        #endregion
+		class DefineSymbolInfo
+		{
+			public bool ActiveState { get { return activeStateGetter(); } set { activeStateSetter(value); } }
+			public DefineSymbol defineSymbol;
+			Func<bool> activeStateGetter;
+			Action<bool> activeStateSetter;
 
-        public void UpdateVersion(string currentVersion)
-        {
-            if (version != currentVersion)
-            {
-                version = currentVersion;
+			public DefineSymbolInfo(DefineSymbol defineSymbol, Func<bool> activeStateGetter, Action<bool> activeStateSetter)
+			{
+				this.defineSymbol = defineSymbol;
+				this.activeStateGetter = activeStateGetter;
+				this.activeStateSetter = activeStateSetter;
+			}
+		}
 
-                //Update Setting
-                RefreshDefine();
-                Debug.Log("Update EventPlayerSetting to version: " + currentVersion);
-            }
-        }
+		////存储宏定义及激活状态
+		List<DefineSymbolInfo> listDefineSymbolInfo
+		{
+			get
+			{
+				if (_listDefineSymbolInfo == null)
+				{
+					_listDefineSymbolInfo = new List<DefineSymbolInfo>()
+				{
+					new DefineSymbolInfo(new DefineSymbol("Threeyes_Timeline", "Timeline Event", "支持Timeline", baseExtendDir+"|"+ epExtendDir),()=>useTimeline,(v)=>useTimeline=v),
+					new DefineSymbolInfo(new DefineSymbol("Threeyes_VideoPlayer", "VideoPlayer Event", "支持VideoPlayer", epExtendDir+"/"+"Video"),()=>useVideoPlayer,(v)=>useVideoPlayer=v),
+					new DefineSymbolInfo(new DefineSymbol("Threeyes_BezierSolution", "BezierSolution Support", "支持BezierSolution", epExtendDir+"/"+"BezierSolution"),()=>useBezierSolution,(v)=>useBezierSolution=v),
+					new DefineSymbolInfo(new DefineSymbol("Threeyes_DoTweenPro", "DoTweenPro Support", "支持DoTweenPro", epExtendDir+"/"+"DoTweenPro"),()=>useDoTweenPro,(v)=>useDoTweenPro=v),
+				};
+				}
+				return _listDefineSymbolInfo;
+			}
+		}
+		List<DefineSymbolInfo> _listDefineSymbolInfo = null;
 
-        [ContextMenu("RefreshDefine")]
-        public void RefreshDefine()
-        {
-            foreach (var element in dictDS)
-            {
-                RefreshRelateFiles(element.Key, element.Value);
-            }
-        }
 
-        void OnValidate()
-        {
+		#endregion
+
+		//根据PlayerSettings中的Define，初始化SO（便于项目迁移后的初始化）
+		static void InitSettings(SOEventPlayerSettingManager sOEventPlayerSettingManager)
+		{
+			var listDefine = EditorDefineSymbolTool.GetListDefine();
+			foreach (var element in sOEventPlayerSettingManager.listDefineSymbolInfo)
+			{
+				element.ActiveState = listDefine.Contains(element.defineSymbol.name);
+			}
+			EditorUtility.SetDirty(sOEventPlayerSettingManager);//！需要调用该方法保存更改
+
+			//Debug.Log("SOEventPlayerSettingManager Init after creation!");
+		}
+
+		public void UpdateVersion(string currentVersion)
+		{
+			if (version != currentVersion)
+			{
+				//Update Setting
+				Debug.Log("Update EventPlayerSetting version from " + version + " to " + currentVersion);
+				version = currentVersion;
+				EditorUtility.SetDirty(this);//先保存一次这个字段，否则后期的RefreshDefine会导致保存失败
+				RefreshDefine();
+				EditorUtility.SetDirty(this);//！需要调用该方法保存更改
+			}
+		}
+
+
+
+		[ContextMenu("RefreshDefine")]
+		public void RefreshDefine()
+		{
+			//ToUpdate:改用EditorDefineSymbolTool.ModifyDefines
+			List<string> listDefineToAdd = new List<string>();
+			List<string> listDefineToRemove = new List<string>();
+			foreach (var element in listDefineSymbolInfo)
+			{
+				if (element.ActiveState == true)//激活状态
+					listDefineToAdd.Add(element.defineSymbol.name);
+				else
+					listDefineToRemove.Add(element.defineSymbol.name);
+			}
+			EditorDefineSymbolTool.ModifyDefines(listDefineToAdd, listDefineToRemove);
+		}
+
+		void OnValidate()
+		{
 #if UNITY_EDITOR
-            EditorApplication.RepaintHierarchyWindow();
+			EditorApplication.RepaintHierarchyWindow();
 #endif
-        }
+		}
+	}
 
-        #region Utility
+	[InitializeOnLoad]
+	public static class EventPlayerVersionManager
+	{
+		public static readonly string EventPlayer_Version = "3.0"; //Plugin Version
 
-
-        void RefreshRelateFiles(DefineSymbol defineSymbol, bool enable)
-        {
-            //Todo:通过路径找到文件夹，然后替换代码头
-            string targetDir = "";
-            List<DirectoryInfo> listDirectoryInfo = PathTool.GetSubDirectories(new DirectoryInfo(Application.dataPath), -1);
-            foreach (DirectoryInfo directoryInfo in listDirectoryInfo)
-            {
-                if (directoryInfo.Name == epRootDir)
-                {
-                    string dir = directoryInfo.FullName + "/" + defineSymbol.rootFolderName;
-                    if (Directory.Exists(dir))
-                    {
-                        targetDir = dir;
-                        break;
-                    }
-                }
-            }
-
-            if (targetDir != "")
-            {
-                //Debug.Log("Working on Dir: \r\n" + targetDir);
-                DirectoryInfo directoryInfo = new DirectoryInfo(targetDir);
-                if (directoryInfo.Exists)
-                {
-                    List<FileInfo> listFileInfo = PathTool.GetSubFiles(directoryInfo, -1, "*.cs").ToList();
-
-                    foreach (FileInfo fi in listFileInfo)
-                    {
-                        ModifyCSFile(fi, defineSymbol, enable);
-                    }
-                    AssetDatabase.Refresh();
-                }
-            }
-            else
-            {
-                Debug.LogError("Can't find dir:\r\n" + targetDir);
-            }
-        }
-
-        List<int> _LinesToChange = new List<int>();
-        /// <summary>
-        /// Learn from DoTween, Replace #if true to #if false
-        /// </summary>
-        /// <param name="fileInfo"></param>
-        /// <param name="defineSymbol"></param>
-        /// <param name="enable"></param>
-        bool ModifyCSFile(FileInfo fileInfo, DefineSymbol defineSymbol, bool enable)
-        {
-            bool hasModifiedFiles = false;
-            string filePath = fileInfo.FullName;
-            string marker = defineSymbol.name;
-
-            _LinesToChange.Clear();
-            string[] lines = File.ReadAllLines(filePath);
-            for (int i = 0; i < lines.Length; ++i)
-            {
-                string s = lines[i];
-
-                //初始化
-                if (s.Equals("#if " + marker))
-                {
-                    lines[i] = "#if true // " + marker;
-                    s = lines[i];
-                }
-
-                if (s.EndsWith(marker) && s.StartsWith("#if") && (enable && s.Contains("false") || !enable && s.Contains("true")))
-                {
-                    _LinesToChange.Add(i);
-                }
-            }
-            if (_LinesToChange.Count > 0)
-            {
-                hasModifiedFiles = true;
-                using (StreamWriter sw = new StreamWriter(filePath))
-                {
-                    for (int i = 0; i < lines.Length; ++i)
-                    {
-                        string s = lines[i];
-                        if (_LinesToChange.Contains(i))
-                        {
-                            s = enable ? s.Replace("false", "true") : s.Replace("true", "false");
-                        }
-                        sw.WriteLine(s);
-                    }
-                }
-
-                //string localPath= filePath.funa
-                //AssetDatabase.ImportAsset(EditorUtils.FullPathToADBPath(filePath), ImportAssetOptions.Default);
-                //Debug.Log("Modify file to " + enable + ":\r\n" + fileInfo.FullName);
-            }
-
-            return hasModifiedFiles;
-        }
-
-        #endregion
-    }
+		static EventPlayerVersionManager()
+		{
+			if (SOEventPlayerSettingManager.Instance)
+			{
+				SOEventPlayerSettingManager.Instance.UpdateVersion(EventPlayer_Version);
+			}
+		}
+	}
 }
 #endif

@@ -16,13 +16,23 @@ namespace Threeyes.EventPlayer
         where TEP : EventPlayerWithParamBase<TEP, TUnityEvent, TParam>
         where TUnityEvent : UnityEvent<TParam>
     {
+        #region Networking
+        public UnityAction<bool> actCommandPlayWithParam;
+
+        #endregion
+
         #region Property & Field
 
         //——UnityEvent——
         public TUnityEvent onPlayWithParam = default(TUnityEvent);
+        public TUnityEvent onStopWithParam = default(TUnityEvent);
+
+        //——Basic Setting——
         public bool IsPlayWithParam { get { return isPlayWithParam; } set { isPlayWithParam = value; } }
+        public bool IsStopWithParam { get { return isStopWithParam; } set { isStopWithParam = value; } }
+
         public virtual TParam Value { get { return value; } set { this.value = value; } }
-        public virtual string ValueToString { get { return Value.ToString(); } }//The value info Display in Inspector
+        public virtual string ValueToString { get { return Value != null ? Value.ToString() : ""; } }//The value info Display in Inspector
         public bool IsDetectMatch { get { return isDetectMatch; } set { isDetectMatch = value; } }
         public TParam TargetValue { get { return targetValue; } set { targetValue = value; } }
 
@@ -30,6 +40,9 @@ namespace Threeyes.EventPlayer
         [SerializeField]
         [Tooltip("Use current Value when you call Play. Set to true if this EP is the Invoker")]
         protected bool isPlayWithParam = false;
+        [SerializeField]
+        [Tooltip("Use current Value when you call Stop. Set to true if this EP is the Invoker")]
+        protected bool isStopWithParam = false;
         [SerializeField]
         [Tooltip("Current value")]
         protected TParam value = default(TParam);
@@ -46,23 +59,40 @@ namespace Threeyes.EventPlayer
 
         public override void Play(bool isPlay)
         {
-            PlayWithParam(isPlay, IsPlayWithParam, Value);
+            PlayWithParam(isPlay, isPlay ? IsPlayWithParam : IsStopWithParam, Value);
         }
-        public void PlayWithParam(bool isPlay, bool isPlayWithParam)
-        {
-            PlayWithParam(isPlay, true);
-        }
+
         /// <summary>
         /// Execute the related play event with param (Parallel to Play(bool))
         /// PS:该公开方法不能声明在基类，否则会与(Bool)EventPlayer冲突
         /// </summary>
         /// <param name="value"></param>
+        [System.Obsolete("Will messup with subClass Play(object). Use PlayWithParam(TParam) instead.", false)]
         public virtual void Play(TParam value)
         {
             PlayWithParam(true, true, value);
         }
 
-        public void PlayWithParam(bool isPlay, bool isPlayWithParam, TParam value = default(TParam))
+        public void PlayWithParam(TParam value)
+        {
+            PlayWithParam(true, true, value);
+        }
+        public void StopWithParam(TParam value)
+        {
+            PlayWithParam(false, true, value);
+        }
+        /// <summary>
+        /// Play using the exist value
+        /// </summary>
+        /// <param name="isPlay"></param>
+        /// <param name="isPlayStopWithParam"></param>
+        public void PlayWithParam(bool isPlay, TParam value)
+        {
+            PlayWithParam(isPlay, true, value);
+        }
+
+
+        public void PlayWithParam(bool isPlay, bool isPlayStopWithParam, TParam value)
         {
             //PS:All the public play-relate method will call this method
             if (!IsActive)
@@ -73,7 +103,7 @@ namespace Threeyes.EventPlayer
                 if (IsPlayOnce && isPlayed || !CanPlay)
                     return;
 
-                if (isPlayWithParam)
+                if (isPlayStopWithParam)
                 {
                     if (!(IsDetectMatch && !CompareValue(value, TargetValue)))
                         PlayWithParamFunc(value);
@@ -86,7 +116,13 @@ namespace Threeyes.EventPlayer
                 if (!CanStop)
                     return;
 
-                StopFunc();
+                if (isPlayStopWithParam)
+                {
+                    if (!(IsDetectMatch && !CompareValue(value, TargetValue)))
+                        StopWithParamFunc(value);
+                }
+                else
+                    StopFunc();
             }
         }
 
@@ -98,7 +134,7 @@ namespace Threeyes.EventPlayer
         {
             bool cacheState = IsDetectMatch;
             IsDetectMatch = true;
-            Play(value);
+            PlayWithParam(value);
             IsDetectMatch = cacheState;
         }
         #endregion
@@ -125,7 +161,7 @@ namespace Threeyes.EventPlayer
                 {
                     Value = value;
                     onPlayWithParam.Invoke(value);
-                    SetStateFunc(true, EventPlayer_State.PlayedwithParam);
+                    SetStateFunc(EventPlayer_State.PlayedwithParam);
                 },
                 actionRelate,
                 actionRelate,
@@ -133,7 +169,35 @@ namespace Threeyes.EventPlayer
                 {
                     if (IsLogOnPlay) Debug.Log(name + " Play with Param: " + ValueToString);
                 });
+
+            NotifyListener<EventPlayerWithParamListener<TParam>>((epl) => epl.OnPlayWithParam(value));
         }
+        protected virtual void StopWithParamFunc(TParam value)
+        {
+            UnityAction<TEP> actionRelate =
+                (ep) =>
+                {
+                    if (ep != null)
+                        ep.PlayWithParam(false, true, value);
+                };
+
+            InvokeFunc(
+                () =>
+                {
+                    Value = value;
+                    onStopWithParam.Invoke(value);
+                    SetStateFunc(EventPlayer_State.StopedwithParam);
+                },
+                actionRelate,
+                actionRelate,
+                () =>
+                {
+                    if (IsLogOnStop) Debug.Log(name + " Stop with Param: " + ValueToString);
+                });
+
+            NotifyListener<EventPlayerWithParamListener<TParam>>((epl) => epl.OnStopWithParam(value));
+        }
+
 
 
         #endregion
@@ -146,7 +210,7 @@ namespace Threeyes.EventPlayer
             base.SetHierarchyGUIProperty(sB);
             sbCache.Length = 0;
 
-            if (IsPlayWithParam)
+            if (IsPlayWithParam || IsStopWithParam)
                 sbCache.Append("◆");
             sbCache.Append(ValueToString);
 
@@ -159,20 +223,20 @@ namespace Threeyes.EventPlayer
         public override void SetInspectorGUIUnityEventProperty(GUIPropertyGroup group)
         {
             base.SetInspectorGUIUnityEventProperty(group);
-            group.listProperty.Add(new GUIProperty("onPlayWithParam", "OnPlayWithParam"));
+            group.listProperty.Add(new GUIProperty(nameof(onPlayWithParam)));
+            group.listProperty.Add(new GUIProperty(nameof(onStopWithParam)));
         }
 
         public override void SetInspectorGUISubProperty(GUIPropertyGroup group)
         {
             base.SetInspectorGUISubProperty(group);
             group.title = "Param Setting";
-            group.listProperty.Add(new GUIProperty("isPlayWithParam", "PlayWithParam", "Invoke Play with current Value."));
-            group.listProperty.Add(new GUIProperty("value", "Value"));
-            group.listProperty.Add(new GUIProperty("isDetectMatch", "DetectMatch", "Play only when the receive value matchs the targetValue"));
-            group.listProperty.Add(new GUIProperty("targetValue", "TargetValue", "Target value to Play", IsDetectMatch));
+            group.listProperty.Add(new GUIProperty(nameof(isPlayWithParam), "PlayWithParam", "Invoke Play with current Value."));
+            group.listProperty.Add(new GUIProperty(nameof(value)));
+            group.listProperty.Add(new GUIProperty(nameof(isDetectMatch), "DetectMatch", "Play only when the receive value matchs the targetValue"));
+            group.listProperty.Add(new GUIProperty(nameof(targetValue), "TargetValue", "Target value to Play", IsDetectMatch));
         }
 #endif
         #endregion
     }
-
 }

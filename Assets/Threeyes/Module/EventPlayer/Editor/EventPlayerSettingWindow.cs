@@ -1,16 +1,10 @@
 ﻿#if UNITY_EDITOR
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Linq.Expressions;
-using System.Reflection;
+using Threeyes.Editor;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.Events;
 
-namespace Threeyes.EventPlayer
+namespace Threeyes.EventPlayer.Editor
 {
     public class EventPlayerSettingWindow : EditorWindow
     {
@@ -19,7 +13,7 @@ namespace Threeyes.EventPlayer
 
         SOEventPlayerSettingManager inst { get { return SOEventPlayerSettingManager.Instance; } }
 
-        [MenuItem("Window/Threeyes/" + windowTitle)]
+        [MenuItem("Tools/Threeyes/" + windowTitle)]
         static void OpenWindow()
         {
             EventPlayerSettingWindow window = EditorWindow.GetWindow<EventPlayerSettingWindow>(true, windowTitle, true);
@@ -27,53 +21,102 @@ namespace Threeyes.EventPlayer
             window.maxSize = _WinSize;
             window.ShowUtility();
         }
+
+        const string lineBreak = "└─";
+        static Color colorGray = Color.white * 0.8f;
+        static bool isSettingChange = false;
         void OnGUI()
         {
+            EditorDrawerTool.RecordGUIColors();
             EditorGUI.BeginChangeCheck();
 
             //Display Setting
             GUILayout.BeginVertical(GUI.skin.box);
             EditorDrawerTool.DrawGroupTitleText("Display Setting");
             EditorDrawerTool.DrawSpace();
-            DrawSwitchButton(new GUIContent("Show property in Hierarchy Window"), () => inst.showPropertyInHierarchy,
+            DrawToggle(new GUIContent("Show property in Hierarchy Window"), () => inst.showPropertyInHierarchy,
                 (b) =>
                 {
                     inst.showPropertyInHierarchy = b;
                     EditorApplication.RepaintHierarchyWindow();
                 }
-                );
+                , ref isSettingChange);
             GUILayout.EndVertical();
 
             //Other Plugin Support
             GUILayout.BeginVertical(GUI.skin.box);
             EditorDrawerTool.DrawGroupTitleText("Extern Support");
             EditorDrawerTool.DrawSpace();
-            DrawSwitchButton(new GUIContent("TimeLine"), () => inst.useTimeline, (b) => inst.useTimeline = b);
-            DrawSwitchButton(new GUIContent("VideoPlayer"), () => inst.useVideoPlayer, (b) => inst.useVideoPlayer = b);
 
+            //#TimeLine
+            if (DrawToggle(new GUIContent("TimeLine", "Import Timeline before you active this!"), () => inst.useTimeline, (b) => inst.useTimeline = b, ref isSettingChange))
+                DrawSubLines("[Unity.Timeline]", "[Unity.Timeline.Editor]");
+
+            //#BezierSolution
+            EditorDrawerTool.DrawSpace();
+            if (DrawToggle(new GUIContent("BezierSolution"), () => inst.useBezierSolution, (b) => inst.useBezierSolution = b, ref isSettingChange))
+                DrawSubLines("[BezierSolution.Runtime]");
+
+            //#DoTweenPro
+            EditorDrawerTool.DrawSpace();
+            if (DrawToggle(new GUIContent("DoTweenPro"), () => inst.useDoTweenPro, (b) => inst.useDoTweenPro = b, ref isSettingChange))
+            {
+                DrawSubLines("[DOTweenPro.Scripts] (If Exists)");
+                GUILayout.BeginHorizontal();
+                DrawLineBreak();
+                DrawToggle(new GUIContent("Preview (Still in development, Bug inside!)", "In preview mode, The Tween may not reset to origin state, if so, you can reload the scene without saving it"), () => inst.activeDoTweenProPreview, (b) => inst.activeDoTweenProPreview = b, ref isSettingChange);
+                GUILayout.EndHorizontal();
+            }
+
+            //#VideoPlayer
+            EditorDrawerTool.DrawSpace();
+            DrawToggle(new GUIContent("VideoPlayer"), () => inst.useVideoPlayer, (b) => inst.useVideoPlayer = b, ref isSettingChange);
+
+            EditorDrawerTool.DrawSpace();
             EditorDrawerTool.RecordGUIColors();
-            GUI.color = Color.white * 0.9f;
-            GUILayout.Label("Select which plugin you want to use then click Apply");//Hints
-            EditorDrawerTool.RestoreGUIColors();
 
             if (GUILayout.Button("Apply"))
             {
                 inst.RefreshDefine();
             }
+            GUI.color = colorGray;
+            GUILayout.Label("—Select and click Apply, then wait for compile to complete—", EditorDrawerTool.gUITitleText);//Hints
+            GUILayout.Label("—Also you should link to the require asmdef—", EditorDrawerTool.gUITitleText);//Hints
+            EditorDrawerTool.RestoreGUIColors();
             GUILayout.EndVertical();
+
+            //Plugin Info
+            GUILayout.BeginVertical(GUI.skin.box);
+            EditorDrawerTool.DrawGroupTitleText("Info");
+            GUILayout.Label("Version: " + inst.version);
+            GUILayout.EndVertical();
+
 
             if (EditorGUI.EndChangeCheck())
             {
                 EditorUtility.SetDirty(inst);//！需要调用该方法保存更改
             }
+
+            //Debug.Log(isSettingChange);
         }
 
-
-        bool DrawSwitchButton(GUIContent gUIContent, CustomFunc<bool> getter, UnityAction<bool> setter)
+        void DrawSubLines(params string[] listText)
         {
-            //return EditorDrawerTool.DrawSwitchButton(gUIContent, getter, setter, inst);
+            GUILayout.BeginHorizontal();
+            DrawLineBreak();
+            GUI.color = colorGray;
+            GUILayout.Label(new GUIContent("Require asmdef: " + listText.ConnectToString("+")));
+            EditorDrawerTool.RestoreGUIColors();
+            GUILayout.EndHorizontal();
+        }
 
-            //这个Toggle比较明显
+        void DrawLineBreak()
+        {
+            GUILayout.Label(lineBreak, GUILayout.MaxWidth(16));
+        }
+
+        bool DrawToggle(GUIContent gUIContent, CustomFunc<bool> getter, UnityAction<bool> setter, ref bool isChanged)
+        {
             bool curValue = getter();
             bool result = EditorGUILayout.ToggleLeft(gUIContent, getter());
             if (result != curValue)
@@ -84,6 +127,7 @@ namespace Threeyes.EventPlayer
                     setter(result);//Change  setting
                     EditorUtility.SetDirty(inst);
                 }
+                isChanged |= true;//Mark as changed
             }
             return result;
         }

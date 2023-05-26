@@ -4,6 +4,9 @@ using System.Collections.Generic;
 using System.Text;
 using Threeyes.Coroutine;
 using UnityEngine.Playables;
+#if UNITY_EDITOR
+using Threeyes.Editor;
+#endif
 
 namespace Threeyes.EventPlayer
 {
@@ -40,7 +43,7 @@ namespace Threeyes.EventPlayer
     {
         #region Property & Field
 
-        protected bool IsPlayOnRepeatStart { get { return isPlayOnRepeatStart; } set { isPlayOnRepeatStart = value; } }
+        public bool IsPlayOnRepeatStart { get { return isPlayOnRepeatStart; } set { isPlayOnRepeatStart = value; } }
         public float DeltaTime { get { return replayDeltaTime; } set { replayDeltaTime = value; } }
         public int ReplayCount { get { return replayCount; } set { replayCount = value; } }
         public float Duration { get { return defaultDuration; } set { defaultDuration = value; } }
@@ -95,7 +98,7 @@ namespace Threeyes.EventPlayer
             }
 
 #if UNITY_EDITOR
-            coroutineUsedTime = 0;
+            CoroutineUsedTime = 0;
             curPlayedCount = 0;
             if (IsLogOnPlay)
                 print(name + " RepeatEventPlay!");
@@ -111,6 +114,8 @@ namespace Threeyes.EventPlayer
             }
 
             IsCoroutineRunning = true;
+            SetStateFunc(EventPlayer_State.Played);
+
             //To avoid the missing invoke due to Time trouble (避免因为时间精度而少调用一次事件)
             bool isPerfectMatch = false;//It set to true, it will invoke the exact count before stop
             if (duration != float.PositiveInfinity && duration % deltaTime == 0)//(检查是否能整除)
@@ -162,8 +167,7 @@ namespace Threeyes.EventPlayer
                 }
 
 #if UNITY_EDITOR
-                coroutineUsedTime = curTime - lastInvokeTime;
-                RepaintHierarchyWindow();
+                CoroutineUsedTime = curTime - lastInvokeTime;
 #endif
 
                 if (HasDestoryed)//In case get destroy
@@ -243,25 +247,16 @@ namespace Threeyes.EventPlayer
 
 #if UNITY_EDITOR
 
+        //——MenuItem——
         static string instName = "RepeatEP ";
-
-        [UnityEditor.MenuItem(strSubCoroutineMenuItem + "RepeatEventPlayer", false, intCoroutineMenuOrder + 2)]
+        [UnityEditor.MenuItem(strMenuItem_RootCoroutine + "RepeatEventPlayer", false, intCoroutineMenuOrder + 1)]
         public static void CreateRepeatEventPlayer()
-        {
-            EditorTool.CreateGameObject<RepeatEventPlayer>(instName);
-        }
-
-        [UnityEditor.MenuItem(strSubCoroutineMenuItem + "RepeatEventPlayer Child", false, intCoroutineMenuOrder + 3)]
-        public static void CreateRepeatEventPlayerChild()
         {
             EditorTool.CreateGameObjectAsChild<RepeatEventPlayer>(instName);
         }
 
-        public override void SetHierarchyGUIType(StringBuilder sB)
-        {
-            sB.Append("R");
-        }
-
+        //——Hierarchy GUI——
+        public override string ShortTypeName { get { return "R"; } }
         public override void SetHierarchyGUIProperty(StringBuilder sB)
         {
             base.SetHierarchyGUIProperty(sB);
@@ -274,7 +269,7 @@ namespace Threeyes.EventPlayer
             if (IsCoroutineRunning)
             {
                 sbCache.Length = 0;
-                sbCache.Append(GetRunningSymbol(coroutineUsedTime)).Append("#").Append(curPlayedCount + 1).Append(" ").Append(coroutineUsedTime.ToString("#0.00")).Append("s");
+                sbCache.Append(GetRunningSymbol(CoroutineUsedTime)).Append("#").Append(curPlayedCount + 1).Append(" ").Append(CoroutineUsedTime.ToString("#0.00")).Append("s");
                 AddSplit(sB, sbCache);
             }
 
@@ -287,17 +282,17 @@ namespace Threeyes.EventPlayer
             if (!IsConfigValid)
             {
                 if (!IsPropertyValid(DeltaTime))
-                    EditorDrawerTool.AppendWarningText(sbCache, deltaTime, "s");
+                    sbCache.AppendWarningRichText(deltaTime, "s");
                 else
                     sbCache.Append("deltaTime").Append("s");
                 sbCache.Append("×");
                 if (!IsPropertyValid(ReplayCount))
-                    EditorDrawerTool.AppendWarningText(sbCache, replayCount);
+                    sbCache.AppendWarningRichText(replayCount);
                 else
                     sbCache.Append(replayCount);
                 sbCache.Append(":");
                 if (!IsPropertyValid(Duration))
-                    EditorDrawerTool.AppendWarningText(sbCache, duration, "s");
+                    sbCache.AppendWarningRichText(duration, "s");
                 else
                     sbCache.Append(duration).Append("s");
                 AddSplit(sB, sbCache);
@@ -332,7 +327,7 @@ namespace Threeyes.EventPlayer
                 bool isOverFLow = IsConfigOverflow(deltaTime, replayCount, duration);
                 if (isOverFLow)
                 {
-                    EditorDrawerTool.AppendWarningText(sbCache, strDuration);
+                    sbCache.AppendWarningRichText(strDuration);
                 }
                 else
                     sbCache.Append(strDuration);
@@ -341,25 +336,29 @@ namespace Threeyes.EventPlayer
             AddSplit(sB, sbCache);
         }
 
+        //——Inspector GUI——
         public override void SetInspectorGUISubProperty(GUIPropertyGroup group)
         {
             base.SetInspectorGUISubProperty(group);
             group.title = "Repeat Setting";
-            group.listProperty.Add(new GUIProperty("isPlayOnRepeatStart", "PlayOnStart"));
-            group.listProperty.Add(new GUIProperty("replayDeltaTime", "ReplayDeltaTime"));
-            group.listProperty.Add(new GUIProperty("replayCount", "ReplayCount"));
-            group.listProperty.Add(new GUIProperty("defaultDuration", "Duration"));
+            group.listProperty.Add(new GUIProperty(nameof(isPlayOnRepeatStart), "PlayOnStart"));
+            group.listProperty.Add(new GUIProperty(nameof(replayDeltaTime), "ReplayDeltaTime"));
+            group.listProperty.Add(new GUIProperty(nameof(replayCount), "ReplayCount"));
+            group.listProperty.Add(new GUIProperty(nameof(defaultDuration), "Duration"));
         }
-
         public override void SetInspectorGUICommonTextArea(StringBuilder sB)
         {
             base.SetInspectorGUICommonTextArea(sB);
-            if (IsPropertyValid(DeltaTime) && IsPropertyValid(ReplayCount) && IsPropertyValid(Duration))
+            //if (IsPropertyValid(DeltaTime) && IsPropertyValid(ReplayCount) && IsPropertyValid(Duration))
             {
-                bool isOverFLow = IsConfigOverflow(DeltaTime, ReplayCount, Duration);
-                if (isOverFLow)
+                if (!IsConfigValid)
                 {
-                    EditorDrawerTool.AppendWarningText(sB, DeltaTime, " × ", ReplayCount, " > ", Duration, " !", "\r\nplease check the duration property!");
+                    sB.AppendWarningRichText("The config are not valid!");
+                    sB.Append("\r\n");
+                }
+                else if (IsConfigOverflow(DeltaTime, ReplayCount, Duration))
+                {
+                    sB.AppendWarningRichText("The config are not valid (", DeltaTime, "s×", ReplayCount, ">", Duration, "s)!");
                     sB.Append("\r\n");
                 }
             }

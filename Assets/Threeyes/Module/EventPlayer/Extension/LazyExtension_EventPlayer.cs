@@ -5,6 +5,6 @@ using System.Reflection;
 using UnityEngine;
 using UnityEngine.Events;
 
-public static partial class LazyExtension
+public static  class LazyExtension_EventPlayer
 {
 }
