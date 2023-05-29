@@ -30,9 +30,6 @@ Event Player extends Unity built-in Event System,  provide several Components th
 
 ## Samples
 Check out scenes in "Samples" folder.
-
-EventPlayer Basic Setting:
-
-https://github.com/Threeyes/EventPlayer/wiki/videos/0 BasicSetting.mp4
+	
 ## More Info
 [Unity Forum Thread](https://forum.unity.com/threads/release-event-player-visual-play-and-organize-unityevent.536984/)
