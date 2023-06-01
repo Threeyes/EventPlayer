@@ -8,7 +8,7 @@
     <br />
 </p>
 
-[AssetStore Link](https://assetstore.unity.com/packages/tools/visual-scripting/event-player-116731)
+[Unity商店链接](https://assetstore.unity.com/packages/tools/visual-scripting/event-player-116731)
 
 ## 语言
 <p float="left">
@@ -17,7 +17,7 @@
 </p>
 
 ## 简介
-我已经厌倦了重复写无法重复用的脚本，所以它就在这里没有额外窗口的可视化脚本！
+我厌倦了重复写又无法重复用的脚本，所以一怒之下写了这款可视化事件管理插件！
 
 **EventPlayer** 扩展了Unity内置的事件系统，提供了针对延迟、重复、倒计时等功能的组件。
 
@@ -37,4 +37,5 @@
 
 ## 更多信息
 [Unity论坛](https://forum.unity.com/threads/release-event-player-visual-play-and-organize-unityevent.536984/)
+
 [Unity社区-中文教程](https://developer.unity.cn/projects/603086a7edbc2a00202c3878)

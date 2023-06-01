@@ -38,4 +38,5 @@ Check out [#ReadMe.txt](https://github.com/Threeyes/EventPlayer/blob/main/Assets
 
 ## More Info
 [Unity Forum Thread](https://forum.unity.com/threads/release-event-player-visual-play-and-organize-unityevent.536984/)
+
 [Unity Community - Chinese Tutorial](https://developer.unity.cn/projects/603086a7edbc2a00202c3878)
