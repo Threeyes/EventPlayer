@@ -31,7 +31,7 @@ Event Player extends Unity built-in Event System,  provide several Components th
     + [VideoPlayer](https://docs.unity3d.com/Manual/class-VideoPlayer.html)
     + [BezierSolution](https://assetstore.unity.com/packages/tools/level-design/bezier-solution-113074)
     + [DoTweenPro](https://assetstore.unity.com/packages/tools/visual-scripting/dotween-pro-32416)
-    + (You can also access more plugins yourself...)
+    + (You can also access more plugins by yourself...)
 
 ## Samples
 Check out [#ReadMe.txt](https://github.com/Threeyes/EventPlayer/blob/main/Assets/Threeyes/Module/EventPlayer/%23ReadMe.txt) file and sample scenes in 'Samples' folder.
