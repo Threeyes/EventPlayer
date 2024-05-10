@@ -3,7 +3,7 @@
 <p align="center">
     <a href="https://assetstore.unity.com/packages/tools/visual-scripting/event-player-116731"><img src="https://github.com/Threeyes/EventPlayer/wiki/images/Logo.png" alt="Logo" width="600px" height="400px" />
     <br />
-	<a><img src="https://img.shields.io/badge/%20Unity-2028.4+%20-blue" /></a>
+	<a><img src="https://img.shields.io/badge/%20Unity-2020.4+%20-blue" /></a>
 	<a href="https://github.com/Threeyes/AliveCursorSDK/blob/main/LICENSE"><img src="https://img.shields.io/badge/License-MIT-brightgreen.svg" /></a>
     <br />
 </p>
