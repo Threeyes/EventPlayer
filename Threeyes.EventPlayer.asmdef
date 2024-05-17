@@ -1,0 +1,19 @@
+{
+    "name": "Threeyes.EventPlayer",
+    "rootNamespace": "",
+    "references": [
+        "GUID:b2435c17de217264ebdae08cf9d32e1d",
+        "GUID:f06555f75b070af458a003d92f9efb00",
+        "GUID:624c061ee4dfdaf4787b9c0bb51b4c1f",
+        "GUID:afeb5fdeb43d77a4b8a2ebf7304868a0"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

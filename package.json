@@ -1,0 +1,21 @@
+{
+	"name": "com.threeyes.eventplayer",
+	"displayName": "Threeyes EventPlayer",
+	"description": "Visual reorder, reorganize or deactive events, execute them at desire time.",
+	"version": "4.0.0",
+	"unity": "2021.3",
+	"author": 
+	{
+	"name": "Threeyes",
+	"url": "https://github.com/Threeyes"
+	},
+	"__comment__": "If the plugin is currently in another Unity project folder, the following Samples cannot be imported into the current project!",
+	"samples": 
+	[
+		{
+		  "displayName": "Samples",
+		  "description": "Samples",
+		  "path": "Samples"
+		}
+	]
+}

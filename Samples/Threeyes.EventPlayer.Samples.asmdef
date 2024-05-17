@@ -1,0 +1,16 @@
+{
+    "name": "Threeyes.EventPlayer.Samples",
+    "rootNamespace": "",
+    "references": [
+        "GUID:b2435c17de217264ebdae08cf9d32e1d"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
