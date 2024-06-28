@@ -1,5 +1,9 @@
 ﻿# Changelog
 
+## [4.0.2]
+- This update optimizes the code structure in the Core module. You may need to first delete the "Threeyes/Core" folder in the project and then import.
+
+
 ## [4.0.1]
 - Reduce dependencies on EP: Move CoroutineManager module to Core Library, move Timeline module to EventPlayer Library. If you have previously used components from these modules, you may need to change the referenced namespace. If you find duplicate code errors, please delete and reimport the entire Threeyes folder.
 
