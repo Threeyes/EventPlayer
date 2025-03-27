@@ -202,15 +202,6 @@ namespace Threeyes.EventPlayer
             UpdateTimelineInfo(ClipState.PlayableDestroy, playable);
         }
 
-
-        void DebugLog(string content)
-        {
-            if (isDebugLog)
-                Debug.Log(trackBinding.name + " " + content
-               + " " + playableInfo.inputWeight
-                );
-        }
-
         #region Inner Method
 
         ITimelineProgress iEventPlayerTimeLineInfo;

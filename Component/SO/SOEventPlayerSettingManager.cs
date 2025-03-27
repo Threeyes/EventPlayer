@@ -148,7 +148,7 @@ namespace Threeyes.EventPlayer
     //[InitializeOnLoad]//Warning：Asset operations such as asset loading should be avoided in InitializeOnLoad methods. InitializeOnLoad methods are called before asset importing is completed and therefore the asset loading can fail resulting in a null object. To do initialization after a domain reload which requires asset operations use the AssetPostprocessor.OnPostprocessAllAssets callback. This callback supports all asset operations and has a parameter signaling if there was a domain reload.（https://docs.unity3d.com/ScriptReference/
     public static class EventPlayerVersionManager
     {
-        public static readonly string EventPlayer_Version = "4.0.1"; //Plugin Version
+        public static readonly string EventPlayer_Version = "4.0.3"; //Plugin Version
         /////Bug:
         /////-在初始化时调用容易导致报错，改为在Instance实例创建时调用（因为[InitializeOnLoad]调用时，资源还未加载完成）
         //static EventPlayerVersionManager()

@@ -4,14 +4,15 @@
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 337831424, guid: 6a10b2909283487f913b00d94cd3faf5, type: 3}
+  m_Script: {fileID: 11500000, guid: bfda56da833e2384a9677cd3c976a436, type: 3}
   m_Name: 21 Extend_Timeline
   m_EditorClassIdentifier: 
-  m_NextId: 0
+  m_Version: 0
   m_Tracks:
   - {fileID: 114853634890968368}
   - {fileID: 114116883743176376}
@@ -20,13 +21,15 @@ MonoBehaviour:
   m_FixedDuration: 0
   m_EditorSettings:
     m_Framerate: 60
+    m_ScenePreview: 1
   m_DurationMode: 0
-  m_Version: 0
+  m_MarkerTrack: {fileID: 0}
 --- !u!114 &114006501183858072
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
@@ -35,6 +38,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   eventPlayer:
     exposedName: 755f2b9c0e385cb47b0bc27c700f2959
+    defaultValue: {fileID: 0}
+  bindingOverride:
+    exposedName: 
     defaultValue: {fileID: 0}
   loopType: 0
   clipLength: -1
@@ -63,13 +69,16 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  cacheClipDuration: 0
-  cacheEPInst: {fileID: 0}
+  resetOn: 0
+  isResetOnJump: 1
+  isCompleteOnJump: 1
+  isResetOnPlay: 0
 --- !u!114 &114030027737030302
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
@@ -79,48 +88,8 @@ MonoBehaviour:
   eventPlayer:
     exposedName: ca7066dea8d91114b80995a66b742086
     defaultValue: {fileID: 0}
-  loopType: 0
-  clipLength: -1
-  isFlip: 1
-  curvePercent:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 0
-      outSlope: 1
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    - serializedVersion: 3
-      time: 1
-      value: 1
-      inSlope: 1
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  cacheClipDuration: 3
-  cacheEPInst: {fileID: 0}
---- !u!114 &114049492523331278
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7c0b37c6c544aca4e910c13f864bb90b, type: 3}
-  m_Name: EventPlayerClip
-  m_EditorClassIdentifier: 
-  eventPlayer:
-    exposedName: 30fa613ff2c7d154fb989686b05be888
+  bindingOverride:
+    exposedName: 
     defaultValue: {fileID: 0}
   loopType: 0
   clipLength: -1
@@ -149,13 +118,65 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  cacheClipDuration: 3
-  cacheEPInst: {fileID: 0}
+  resetOn: 0
+  isResetOnJump: 1
+  isCompleteOnJump: 1
+  isResetOnPlay: 0
+--- !u!114 &114049492523331278
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7c0b37c6c544aca4e910c13f864bb90b, type: 3}
+  m_Name: EventPlayerClip
+  m_EditorClassIdentifier: 
+  eventPlayer:
+    exposedName: 30fa613ff2c7d154fb989686b05be888
+    defaultValue: {fileID: 0}
+  bindingOverride:
+    exposedName: 
+    defaultValue: {fileID: 0}
+  loopType: 0
+  clipLength: -1
+  isFlip: 1
+  curvePercent:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 1
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 1
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  resetOn: 0
+  isResetOnJump: 1
+  isCompleteOnJump: 1
+  isResetOnPlay: 0
 --- !u!114 &114091442483011780
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
@@ -164,6 +185,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   eventPlayer:
     exposedName: 57068113f1a168b4da028c9762a95506
+    defaultValue: {fileID: 0}
+  bindingOverride:
+    exposedName: 
     defaultValue: {fileID: 0}
   loopType: 0
   clipLength: 1
@@ -192,27 +216,33 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  cacheClipDuration: 0
-  cacheEPInst: {fileID: 0}
+  resetOn: 0
+  isResetOnJump: 1
+  isCompleteOnJump: 1
+  isResetOnPlay: 0
 --- !u!114 &114116883743176376
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 88d5a7925ae0e4b4e8b8142d0f880657, type: 3}
   m_Name: EP Light Track
   m_EditorClassIdentifier: 
+  m_Version: 3
+  m_AnimClip: {fileID: 0}
   m_Locked: 0
   m_Muted: 0
   m_CustomPlayableFullTypename: 
-  m_AnimClip: {fileID: 0}
+  m_Curves: {fileID: 0}
   m_Parent: {fileID: 11400000}
   m_Children: []
   m_Clips:
-  - m_Start: 9
+  - m_Version: 1
+    m_Start: 9
     m_ClipIn: 0
     m_Asset: {fileID: 114091442483011780}
     m_Duration: 3
@@ -262,8 +292,8 @@ MonoBehaviour:
     m_PostExtrapolationTime: Infinity
     m_PreExtrapolationTime: 0
     m_DisplayName: EP Twinkle LT Light
-    m_Version: 1
-  - m_Start: 6.000000000000003
+  - m_Version: 1
+    m_Start: 6.000000000000003
     m_ClipIn: 0
     m_Asset: {fileID: 114592090049036714}
     m_Duration: 3
@@ -295,8 +325,8 @@ MonoBehaviour:
     m_PostExtrapolationTime: 0
     m_PreExtrapolationTime: 0
     m_DisplayName: EP Twinkle RB Light
-    m_Version: 1
-  - m_Start: 3.000000000000003
+  - m_Version: 1
+    m_Start: 3.000000000000003
     m_ClipIn: 0
     m_Asset: {fileID: 114634281052761752}
     m_Duration: 3
@@ -346,8 +376,8 @@ MonoBehaviour:
     m_PostExtrapolationTime: 0
     m_PreExtrapolationTime: 0
     m_DisplayName: EP Twinkle RT Light
-    m_Version: 1
-  - m_Start: 0
+  - m_Version: 1
+    m_Start: 0
     m_ClipIn: 0
     m_Asset: {fileID: 114886059467916760}
     m_Duration: 3
@@ -415,13 +445,14 @@ MonoBehaviour:
     m_PostExtrapolationTime: 0
     m_PreExtrapolationTime: 0
     m_DisplayName: EP Twinkle LR Light
-    m_Version: 1
-  m_Version: 1
+  m_Markers:
+    m_Objects: []
 --- !u!114 &114208380686862316
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
@@ -439,7 +470,8 @@ MonoBehaviour:
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
@@ -449,6 +481,9 @@ MonoBehaviour:
   eventPlayer:
     exposedName: 1c26a78a924fbca4ea90e51a7ab4a157
     defaultValue: {fileID: 0}
+  bindingOverride:
+    exposedName: 
+    defaultValue: {fileID: 0}
   loopType: 0
   clipLength: -1
   isFlip: 0
@@ -476,13 +511,16 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  cacheClipDuration: 0
-  cacheEPInst: {fileID: 0}
+  resetOn: 0
+  isResetOnJump: 1
+  isCompleteOnJump: 1
+  isResetOnPlay: 0
 --- !u!114 &114331796272925606
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
@@ -492,6 +530,9 @@ MonoBehaviour:
   eventPlayer:
     exposedName: 5b9bc10b24d5990428b2b1d045e0415b
     defaultValue: {fileID: 0}
+  bindingOverride:
+    exposedName: 
+    defaultValue: {fileID: 0}
   loopType: 0
   clipLength: -1
   isFlip: 0
@@ -519,13 +560,16 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  cacheClipDuration: 0
-  cacheEPInst: {fileID: 0}
+  resetOn: 0
+  isResetOnJump: 1
+  isCompleteOnJump: 1
+  isResetOnPlay: 0
 --- !u!114 &114333072402929624
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
@@ -535,6 +579,9 @@ MonoBehaviour:
   eventPlayer:
     exposedName: 4d02b059e3ac7ca44b575ac9caa598e5
     defaultValue: {fileID: 0}
+  bindingOverride:
+    exposedName: 
+    defaultValue: {fileID: 0}
   loopType: 0
   clipLength: -1
   isFlip: 0
@@ -562,13 +609,16 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  cacheClipDuration: 0
-  cacheEPInst: {fileID: 0}
+  resetOn: 0
+  isResetOnJump: 1
+  isCompleteOnJump: 1
+  isResetOnPlay: 0
 --- !u!114 &114358860399773654
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
@@ -578,6 +628,9 @@ MonoBehaviour:
   eventPlayer:
     exposedName: 10b8b925df9dd574d8e5a50479dbd74e
     defaultValue: {fileID: 0}
+  bindingOverride:
+    exposedName: 
+    defaultValue: {fileID: 0}
   loopType: 0
   clipLength: -1
   isFlip: 0
@@ -605,13 +658,16 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  cacheClipDuration: 0
-  cacheEPInst: {fileID: 0}
+  resetOn: 0
+  isResetOnJump: 1
+  isCompleteOnJump: 1
+  isResetOnPlay: 0
 --- !u!114 &114371704778697722
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
@@ -621,6 +677,9 @@ MonoBehaviour:
   eventPlayer:
     exposedName: ed524f4df422c954792bb9bd3a8073b5
     defaultValue: {fileID: 0}
+  bindingOverride:
+    exposedName: 
+    defaultValue: {fileID: 0}
   loopType: 0
   clipLength: -1
   isFlip: 0
@@ -648,13 +707,16 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  cacheClipDuration: 0
-  cacheEPInst: {fileID: 0}
+  resetOn: 0
+  isResetOnJump: 1
+  isCompleteOnJump: 1
+  isResetOnPlay: 0
 --- !u!114 &114387322437748838
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
@@ -664,6 +726,9 @@ MonoBehaviour:
   eventPlayer:
     exposedName: f23c6c1d862a15b4bab12d9ec057b74a
     defaultValue: {fileID: 0}
+  bindingOverride:
+    exposedName: 
+    defaultValue: {fileID: 0}
   loopType: 0
   clipLength: -1
   isFlip: 0
@@ -691,13 +756,16 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  cacheClipDuration: 0
-  cacheEPInst: {fileID: 0}
+  resetOn: 0
+  isResetOnJump: 1
+  isCompleteOnJump: 1
+  isResetOnPlay: 0
 --- !u!114 &114518995943839394
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
@@ -707,80 +775,8 @@ MonoBehaviour:
   eventPlayer:
     exposedName: 882f21bbe7f276f4eb88835f44a60f3c
     defaultValue: {fileID: 0}
-  loopType: 0
-  clipLength: -1
-  isFlip: 0
-  curvePercent:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 0
-      outSlope: 1
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    - serializedVersion: 3
-      time: 1
-      value: 1
-      inSlope: 1
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  cacheClipDuration: 3
-  cacheEPInst: {fileID: 0}
---- !u!114 &114539763346779414
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 1467732076, guid: 6a10b2909283487f913b00d94cd3faf5, type: 3}
-  m_Name: Animation Track1
-  m_EditorClassIdentifier: 
-  m_Locked: 0
-  m_Muted: 0
-  m_CustomPlayableFullTypename: 
-  m_AnimClip: {fileID: 0}
-  m_Parent: {fileID: 11400000}
-  m_Children: []
-  m_Clips: []
-  m_Version: 1
-  m_OpenClipPreExtrapolation: 0
-  m_OpenClipPostExtrapolation: 0
-  m_OpenClipOffsetPosition: {x: 0, y: 0, z: 0}
-  m_OpenClipOffsetEulerAngles: {x: -0, y: 0, z: 0}
-  m_OpenClipTimeOffset: 0
-  m_MatchTargetFields: 63
-  m_Position: {x: 0, y: 0, z: 0}
-  m_EulerAngles: {x: -0, y: 0, z: 0}
-  m_ApplyOffsets: 0
-  m_AvatarMask: {fileID: 0}
-  m_ApplyAvatarMask: 1
-  m_OpenClipOffsetRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_Rotation: {x: 0, y: 0, z: 0, w: 1}
---- !u!114 &114560921314571570
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7c0b37c6c544aca4e910c13f864bb90b, type: 3}
-  m_Name: EventPlayerClip
-  m_EditorClassIdentifier: 
-  eventPlayer:
-    exposedName: 10b8b925df9dd574d8e5a50479dbd74e
+  bindingOverride:
+    exposedName: 
     defaultValue: {fileID: 0}
   loopType: 0
   clipLength: -1
@@ -809,13 +805,106 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  cacheClipDuration: 3
-  cacheEPInst: {fileID: 0}
+  resetOn: 0
+  isResetOnJump: 1
+  isCompleteOnJump: 1
+  isResetOnPlay: 0
+--- !u!114 &114539763346779414
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d21dcc2386d650c4597f3633c75a1f98, type: 3}
+  m_Name: Animation Track1
+  m_EditorClassIdentifier: 
+  m_Version: 3
+  m_AnimClip: {fileID: 0}
+  m_Locked: 0
+  m_Muted: 0
+  m_CustomPlayableFullTypename: 
+  m_Curves: {fileID: 0}
+  m_Parent: {fileID: 11400000}
+  m_Children: []
+  m_Clips: []
+  m_Markers:
+    m_Objects: []
+  m_InfiniteClipPreExtrapolation: 0
+  m_InfiniteClipPostExtrapolation: 0
+  m_InfiniteClipOffsetPosition: {x: 0, y: 0, z: 0}
+  m_InfiniteClipOffsetEulerAngles: {x: -0, y: 0, z: 0}
+  m_InfiniteClipTimeOffset: 0
+  m_InfiniteClipRemoveOffset: 0
+  m_InfiniteClipApplyFootIK: 1
+  mInfiniteClipLoop: 0
+  m_MatchTargetFields: 63
+  m_Position: {x: 0, y: 0, z: 0}
+  m_EulerAngles: {x: 0, y: 0, z: 0}
+  m_AvatarMask: {fileID: 0}
+  m_ApplyAvatarMask: 1
+  m_TrackOffset: 2
+  m_InfiniteClip: {fileID: 0}
+  m_OpenClipOffsetRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_Rotation: {x: 0, y: 0, z: 0, w: 1}
+  m_ApplyOffsets: 0
+--- !u!114 &114560921314571570
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7c0b37c6c544aca4e910c13f864bb90b, type: 3}
+  m_Name: EventPlayerClip
+  m_EditorClassIdentifier: 
+  eventPlayer:
+    exposedName: 10b8b925df9dd574d8e5a50479dbd74e
+    defaultValue: {fileID: 0}
+  bindingOverride:
+    exposedName: 
+    defaultValue: {fileID: 0}
+  loopType: 0
+  clipLength: -1
+  isFlip: 0
+  curvePercent:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 1
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 1
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  resetOn: 0
+  isResetOnJump: 1
+  isCompleteOnJump: 1
+  isResetOnPlay: 0
 --- !u!114 &114592090049036714
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
@@ -824,6 +913,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   eventPlayer:
     exposedName: 8063e9a203e6aa349bf72e319febb1b8
+    defaultValue: {fileID: 0}
+  bindingOverride:
+    exposedName: 
     defaultValue: {fileID: 0}
   loopType: 0
   clipLength: 0.2
@@ -852,13 +944,16 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  cacheClipDuration: 0
-  cacheEPInst: {fileID: 0}
+  resetOn: 0
+  isResetOnJump: 1
+  isCompleteOnJump: 1
+  isResetOnPlay: 0
 --- !u!114 &114634281052761752
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
@@ -867,6 +962,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   eventPlayer:
     exposedName: 121a29ae268c6a84790d908b97683419
+    defaultValue: {fileID: 0}
+  bindingOverride:
+    exposedName: 
     defaultValue: {fileID: 0}
   loopType: 0
   clipLength: 0.4
@@ -895,13 +993,16 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  cacheClipDuration: 0
-  cacheEPInst: {fileID: 0}
+  resetOn: 0
+  isResetOnJump: 1
+  isCompleteOnJump: 1
+  isResetOnPlay: 0
 --- !u!114 &114716808353008024
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
@@ -910,6 +1011,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   eventPlayer:
     exposedName: 7a975e2a543e99b4e8e64de215dd3ee0
+    defaultValue: {fileID: 0}
+  bindingOverride:
+    exposedName: 
     defaultValue: {fileID: 0}
   loopType: 0
   clipLength: -1
@@ -938,13 +1042,16 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  cacheClipDuration: 3
-  cacheEPInst: {fileID: 0}
+  resetOn: 0
+  isResetOnJump: 1
+  isCompleteOnJump: 1
+  isResetOnPlay: 0
 --- !u!114 &114717937238667080
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
@@ -962,21 +1069,25 @@ MonoBehaviour:
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 88d5a7925ae0e4b4e8b8142d0f880657, type: 3}
   m_Name: TLEP Movement Track
   m_EditorClassIdentifier: 
+  m_Version: 3
+  m_AnimClip: {fileID: 0}
   m_Locked: 0
   m_Muted: 0
   m_CustomPlayableFullTypename: 
-  m_AnimClip: {fileID: 0}
+  m_Curves: {fileID: 0}
   m_Parent: {fileID: 11400000}
   m_Children: []
   m_Clips:
-  - m_Start: 6
+  - m_Version: 1
+    m_Start: 6
     m_ClipIn: 0
     m_Asset: {fileID: 114518995943839394}
     m_Duration: 3
@@ -1044,8 +1155,8 @@ MonoBehaviour:
     m_PostExtrapolationTime: 0
     m_PreExtrapolationTime: 0
     m_DisplayName: TLEP RT-RB
-    m_Version: 1
-  - m_Start: 0
+  - m_Version: 1
+    m_Start: 0
     m_ClipIn: 0
     m_Asset: {fileID: 114560921314571570}
     m_Duration: 3
@@ -1113,8 +1224,8 @@ MonoBehaviour:
     m_PostExtrapolationTime: 0
     m_PreExtrapolationTime: 0
     m_DisplayName: TLEP LT-LR
-    m_Version: 1
-  - m_Start: 3
+  - m_Version: 1
+    m_Start: 3
     m_ClipIn: 0
     m_Asset: {fileID: 114843041895016658}
     m_Duration: 3
@@ -1182,8 +1293,8 @@ MonoBehaviour:
     m_PostExtrapolationTime: 0
     m_PreExtrapolationTime: 0
     m_DisplayName: TLEP LR-RT
-    m_Version: 1
-  - m_Start: 9
+  - m_Version: 1
+    m_Start: 9
     m_ClipIn: 0
     m_Asset: {fileID: 114856922318690542}
     m_Duration: 3
@@ -1251,13 +1362,14 @@ MonoBehaviour:
     m_PostExtrapolationTime: Infinity
     m_PreExtrapolationTime: 0
     m_DisplayName: TLEP RB-LT
-    m_Version: 1
-  m_Version: 1
+  m_Markers:
+    m_Objects: []
 --- !u!114 &114757165142296038
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
@@ -1267,48 +1379,8 @@ MonoBehaviour:
   eventPlayer:
     exposedName: 4d02b059e3ac7ca44b575ac9caa598e5
     defaultValue: {fileID: 0}
-  loopType: 0
-  clipLength: -1
-  isFlip: 0
-  curvePercent:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 0
-      outSlope: 1
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    - serializedVersion: 3
-      time: 1
-      value: 1
-      inSlope: 1
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  cacheClipDuration: 3
-  cacheEPInst: {fileID: 0}
---- !u!114 &114784827661403002
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7c0b37c6c544aca4e910c13f864bb90b, type: 3}
-  m_Name: EventPlayerClip
-  m_EditorClassIdentifier: 
-  eventPlayer:
-    exposedName: d08189f5fd3e9c948a438b8bd5165e52
+  bindingOverride:
+    exposedName: 
     defaultValue: {fileID: 0}
   loopType: 0
   clipLength: -1
@@ -1337,27 +1409,82 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  cacheClipDuration: 0
-  cacheEPInst: {fileID: 0}
+  resetOn: 0
+  isResetOnJump: 1
+  isCompleteOnJump: 1
+  isResetOnPlay: 0
+--- !u!114 &114784827661403002
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7c0b37c6c544aca4e910c13f864bb90b, type: 3}
+  m_Name: EventPlayerClip
+  m_EditorClassIdentifier: 
+  eventPlayer:
+    exposedName: d08189f5fd3e9c948a438b8bd5165e52
+    defaultValue: {fileID: 0}
+  bindingOverride:
+    exposedName: 
+    defaultValue: {fileID: 0}
+  loopType: 0
+  clipLength: -1
+  isFlip: 0
+  curvePercent:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 1
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 1
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  resetOn: 0
+  isResetOnJump: 1
+  isCompleteOnJump: 1
+  isResetOnPlay: 0
 --- !u!114 &114819410480154246
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 88d5a7925ae0e4b4e8b8142d0f880657, type: 3}
   m_Name: TLEP UISlider Track
   m_EditorClassIdentifier: 
+  m_Version: 3
+  m_AnimClip: {fileID: 0}
   m_Locked: 0
   m_Muted: 0
   m_CustomPlayableFullTypename: 
-  m_AnimClip: {fileID: 0}
+  m_Curves: {fileID: 0}
   m_Parent: {fileID: 11400000}
   m_Children: []
   m_Clips:
-  - m_Start: 0
+  - m_Version: 1
+    m_Start: 0
     m_ClipIn: 0
     m_Asset: {fileID: 114757165142296038}
     m_Duration: 3
@@ -1425,8 +1552,8 @@ MonoBehaviour:
     m_PostExtrapolationTime: 0
     m_PreExtrapolationTime: 0
     m_DisplayName: TLEP Change Slider
-    m_Version: 1
-  - m_Start: 3
+  - m_Version: 1
+    m_Start: 3
     m_ClipIn: 0
     m_Asset: {fileID: 114049492523331278}
     m_Duration: 3
@@ -1494,8 +1621,8 @@ MonoBehaviour:
     m_PostExtrapolationTime: 0
     m_PreExtrapolationTime: 0
     m_DisplayName: TLEP Change Slider
-    m_Version: 1
-  - m_Start: 6
+  - m_Version: 1
+    m_Start: 6
     m_ClipIn: 0
     m_Asset: {fileID: 114716808353008024}
     m_Duration: 3
@@ -1563,8 +1690,8 @@ MonoBehaviour:
     m_PostExtrapolationTime: 0
     m_PreExtrapolationTime: 0
     m_DisplayName: TLEP Change Slider
-    m_Version: 1
-  - m_Start: 9
+  - m_Version: 1
+    m_Start: 9
     m_ClipIn: 0
     m_Asset: {fileID: 114030027737030302}
     m_Duration: 3
@@ -1632,13 +1759,14 @@ MonoBehaviour:
     m_PostExtrapolationTime: Infinity
     m_PreExtrapolationTime: 0
     m_DisplayName: TLEP Change Slider
-    m_Version: 1
-  m_Version: 1
+  m_Markers:
+    m_Objects: []
 --- !u!114 &114843041895016658
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
@@ -1647,6 +1775,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   eventPlayer:
     exposedName: 3cac0b1eda7badd40bb50bf1b8a8c0d6
+    defaultValue: {fileID: 0}
+  bindingOverride:
+    exposedName: 
     defaultValue: {fileID: 0}
   loopType: 0
   clipLength: -1
@@ -1675,27 +1806,33 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  cacheClipDuration: 3
-  cacheEPInst: {fileID: 0}
+  resetOn: 0
+  isResetOnJump: 1
+  isCompleteOnJump: 1
+  isResetOnPlay: 0
 --- !u!114 &114853634890968368
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 88d5a7925ae0e4b4e8b8142d0f880657, type: 3}
   m_Name: EP Dialog Track
   m_EditorClassIdentifier: 
+  m_Version: 3
+  m_AnimClip: {fileID: 0}
   m_Locked: 0
   m_Muted: 0
   m_CustomPlayableFullTypename: 
-  m_AnimClip: {fileID: 0}
+  m_Curves: {fileID: 0}
   m_Parent: {fileID: 11400000}
   m_Children: []
   m_Clips:
-  - m_Start: 0
+  - m_Version: 1
+    m_Start: 0
     m_ClipIn: 0
     m_Asset: {fileID: 114784827661403002}
     m_Duration: 2
@@ -1763,8 +1900,8 @@ MonoBehaviour:
     m_PostExtrapolationTime: 0
     m_PreExtrapolationTime: 0
     m_DisplayName: EP Good News Everyone
-    m_Version: 1
-  - m_Start: 2
+  - m_Version: 1
+    m_Start: 2
     m_ClipIn: 0
     m_Asset: {fileID: 114863391075042450}
     m_Duration: 2
@@ -1832,8 +1969,8 @@ MonoBehaviour:
     m_PostExtrapolationTime: 0
     m_PreExtrapolationTime: 0
     m_DisplayName: EP Ques1
-    m_Version: 1
-  - m_Start: 4
+  - m_Version: 1
+    m_Start: 4
     m_ClipIn: 0
     m_Asset: {fileID: 114371704778697722}
     m_Duration: 2
@@ -1901,8 +2038,8 @@ MonoBehaviour:
     m_PostExtrapolationTime: 0
     m_PreExtrapolationTime: 0
     m_DisplayName: EP Ques2
-    m_Version: 1
-  - m_Start: 6
+  - m_Version: 1
+    m_Start: 6
     m_ClipIn: 0
     m_Asset: {fileID: 114006501183858072}
     m_Duration: 2
@@ -1970,8 +2107,8 @@ MonoBehaviour:
     m_PostExtrapolationTime: 0
     m_PreExtrapolationTime: 0
     m_DisplayName: EP Why not
-    m_Version: 1
-  - m_Start: 8
+  - m_Version: 1
+    m_Start: 8
     m_ClipIn: 0
     m_Asset: {fileID: 114236689289085978}
     m_Duration: 2
@@ -2039,8 +2176,8 @@ MonoBehaviour:
     m_PostExtrapolationTime: 0
     m_PreExtrapolationTime: 0
     m_DisplayName: EP Simple and Easy
-    m_Version: 1
-  - m_Start: 10
+  - m_Version: 1
+    m_Start: 10
     m_ClipIn: 0
     m_Asset: {fileID: 114387322437748838}
     m_Duration: 2
@@ -2108,13 +2245,14 @@ MonoBehaviour:
     m_PostExtrapolationTime: Infinity
     m_PreExtrapolationTime: 0
     m_DisplayName: EP Less is More
-    m_Version: 1
-  m_Version: 1
+  m_Markers:
+    m_Objects: []
 --- !u!114 &114856922318690542
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
@@ -2124,48 +2262,8 @@ MonoBehaviour:
   eventPlayer:
     exposedName: 18fce4c2a0c2220459fc07289bae8864
     defaultValue: {fileID: 0}
-  loopType: 0
-  clipLength: -1
-  isFlip: 0
-  curvePercent:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 0
-      outSlope: 1
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    - serializedVersion: 3
-      time: 1
-      value: 1
-      inSlope: 1
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  cacheClipDuration: 3
-  cacheEPInst: {fileID: 0}
---- !u!114 &114863391075042450
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7c0b37c6c544aca4e910c13f864bb90b, type: 3}
-  m_Name: EventPlayerClip
-  m_EditorClassIdentifier: 
-  eventPlayer:
-    exposedName: 410c11b36e511eb47bff37c3bba28333
+  bindingOverride:
+    exposedName: 
     defaultValue: {fileID: 0}
   loopType: 0
   clipLength: -1
@@ -2194,13 +2292,65 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  cacheClipDuration: 0
-  cacheEPInst: {fileID: 0}
+  resetOn: 0
+  isResetOnJump: 1
+  isCompleteOnJump: 1
+  isResetOnPlay: 0
+--- !u!114 &114863391075042450
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7c0b37c6c544aca4e910c13f864bb90b, type: 3}
+  m_Name: EventPlayerClip
+  m_EditorClassIdentifier: 
+  eventPlayer:
+    exposedName: 410c11b36e511eb47bff37c3bba28333
+    defaultValue: {fileID: 0}
+  bindingOverride:
+    exposedName: 
+    defaultValue: {fileID: 0}
+  loopType: 0
+  clipLength: -1
+  isFlip: 0
+  curvePercent:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 1
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 1
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  resetOn: 0
+  isResetOnJump: 1
+  isCompleteOnJump: 1
+  isResetOnPlay: 0
 --- !u!114 &114886059467916760
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
@@ -2209,6 +2359,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   eventPlayer:
     exposedName: ac7aeb76d2692b24ba06a0b169745db1
+    defaultValue: {fileID: 0}
+  bindingOverride:
+    exposedName: 
     defaultValue: {fileID: 0}
   loopType: 0
   clipLength: 0.2
@@ -2237,13 +2390,16 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  cacheClipDuration: 0
-  cacheEPInst: {fileID: 0}
+  resetOn: 0
+  isResetOnJump: 1
+  isCompleteOnJump: 1
+  isResetOnPlay: 0
 --- !u!114 &114958396823290778
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
@@ -2261,7 +2417,8 @@ MonoBehaviour:
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
@@ -2270,6 +2427,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   eventPlayer:
     exposedName: 30fa613ff2c7d154fb989686b05be888
+    defaultValue: {fileID: 0}
+  bindingOverride:
+    exposedName: 
     defaultValue: {fileID: 0}
   loopType: 0
   clipLength: -1
@@ -2298,5 +2458,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  cacheClipDuration: 0
-  cacheEPInst: {fileID: 0}
+  resetOn: 0
+  isResetOnJump: 1
+  isCompleteOnJump: 1
+  isResetOnPlay: 0

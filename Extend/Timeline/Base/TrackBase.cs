@@ -18,14 +18,12 @@ using UnityEngine.Timeline;
 
 namespace Threeyes.EventPlayer
 {
-    public abstract class TrackBase<TTrack, TBehaviour, TMixBehaviour, TClip, TBinding> : TrackAsset
+    public abstract class TrackBase<TTrack, TBehaviour, TMixBehaviour, TClip> : TrackAsset
         where TMixBehaviour : class, IPlayableBehaviour, new()
-        where TBehaviour : BehaviourBase<TBinding>, new()
-        where TClip : ClipBase<TTrack, TBehaviour, TBinding>
-    where TTrack : TrackAsset
-    where TBinding : Object
+        where TBehaviour : BehaviourBase, new()
+        where TClip : ClipBase<TTrack, TBehaviour>
+        where TTrack : TrackAsset
     {
-
         /// <summary>
         /// Get Call when you change the content of Track:
         /// 1.Drag/Create/Delete Clip
@@ -49,14 +47,11 @@ namespace Threeyes.EventPlayer
         /// <param name="inputCount"></param>
         protected virtual void InitTrack(PlayableGraph graph, GameObject go, int inputCount)
         {
-            Object binding = go.GetComponent<PlayableDirector>().GetGenericBinding(this);
-
             foreach (TimelineClip timelineClip in GetClips())
             {
                 var clip = timelineClip.asset as TClip;
                 if (clip != null)
                 {
-                    clip.binding = binding;
                     InitClip(timelineClip, clip, graph, go, inputCount);
                 }
             }
@@ -82,6 +77,20 @@ namespace Threeyes.EventPlayer
         //{
         //    base.OnCreateClip(clip);
         //}
+    }
+
+    public abstract class TrackBase<TTrack, TBehaviour, TMixBehaviour, TClip, TBinding> : TrackBase<TTrack, TBehaviour, TMixBehaviour, TClip>
+        where TMixBehaviour : class, IPlayableBehaviour, new()
+        where TBehaviour : BehaviourBase<TBinding>, new()
+        where TClip : ClipBase<TTrack, TBehaviour, TBinding>
+        where TTrack : TrackAsset
+        where TBinding : Object
+    {
+        protected override void InitClip(TimelineClip timelineClip, TClip clip, PlayableGraph graph, GameObject go, int inputCount)
+        {
+            Object binding = go.GetComponent<PlayableDirector>().GetGenericBinding(this);
+            clip.binding = binding;
+        }
     }
 }
 #endif

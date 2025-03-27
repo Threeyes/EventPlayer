@@ -18,10 +18,8 @@ using UnityEngine.Playables;
 namespace Threeyes.EventPlayer
 {
     [System.Serializable]
-    public abstract class BehaviourBase<TBinding> : PlayableBehaviour
+    public abstract class BehaviourBase : PlayableBehaviour
     {
-        public TBinding trackBinding;
-
         public override void OnBehaviourPause(Playable playable, FrameData info)
         {
             //Prevent get call on Timeline Start https://forum.unity.com/threads/release-event-player-visual-play-and-organize-unityevent.536984/#post-3605916
@@ -42,7 +40,12 @@ namespace Threeyes.EventPlayer
         {
 
         }
+    }
 
+    [System.Serializable]
+    public abstract class BehaviourBase<TBinding> : BehaviourBase
+    {
+        public TBinding trackBinding;
     }
 
     //PS:放到这里方便重用宏定义

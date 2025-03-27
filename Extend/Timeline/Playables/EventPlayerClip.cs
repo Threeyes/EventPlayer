@@ -7,9 +7,6 @@ using UnityEngine.Timeline;
 
 namespace Threeyes.EventPlayer
 {
-    /// <summary>
-    /// ToAdd:��������Ƶ�������������ã���BezierWalkerWithTime
-    /// </summary>
     [Serializable]
     public class EventPlayerClip : ClipBase<EventPlayerTrack, EventPlayerBehaviour, GameObject>, ITimelineClipAsset
     {
@@ -21,6 +18,7 @@ namespace Threeyes.EventPlayer
 
 
         public ExposedReference<EventPlayer> eventPlayer;
+        public ExposedReference<GameObject> bindingOverride;//PS:Nullable
 
         [Header("Clip Setting")]
         [SerializeField] protected ClipLoopType loopType = ClipLoopType.Restart;
@@ -44,6 +42,9 @@ namespace Threeyes.EventPlayer
 
         public override void InitClone(EventPlayerBehaviour clone, PlayableGraph graph, GameObject owner)
         {
+            GameObject bindingOverrideObj = bindingOverride.Resolve(graph.GetResolver());
+            clone.trackBinding = bindingOverrideObj ? bindingOverrideObj : binding as GameObject;
+
             clone.eventPlayer = eventPlayer.Resolve(graph.GetResolver());
             clone.loopType = loopType;
             clone.clipLength = clipLength;

@@ -1,5 +1,8 @@
 ﻿# Changelog
 
+## [4.0.3]
+- Fix: Unable to create correct Clip link when dragging EventPlayer instance onto Timeline Track.
+
 ## [4.0.2]
 - This update optimizes the code structure in the Core module. You may need to first delete the "Threeyes/Core" folder in the project and then import.
 

@@ -14,6 +14,8 @@ namespace Threeyes.EventPlayer
         //Update：不通过更改名字提示有无EP，便于用户设置Clip 名称
         protected override void InitClip(TimelineClip timelineClip, EventPlayerClip clip, PlayableGraph graph, GameObject go, int inputCount)
         {
+            base.InitClip(timelineClip, clip, graph, go, inputCount);
+
             var resolver = graph.GetResolver();
             EventPlayer eventPlayer = clip.eventPlayer.Resolve(resolver);
             string suffixNull = " (Null)";//空引用名称标记
